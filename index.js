@@ -374,9 +374,17 @@ client.on("messageCreate", async (msg) => {
 // ════════════════════════════════════════════
 // START
 // ════════════════════════════════════════════
-client.once("ready", () => {
-    console.log(`[Yopi On Air] Bot ready as ${client.user.tag}`);
-    console.log(`[Yopi On Air] Key System running on port ${PORT}`);
+jsclient.once("ready", async () => {
+  console.log(`[Yopi On Air] Bot ready as ${client.user.tag}`);
+  console.log(`[Yopi On Air] Key System running on port ${PORT}`);
+
+  const channel = await client.channels.fetch(KEY_CHANNEL_ID).catch(() => null);
+  if (channel) {
+    await postPanel(channel);
+    console.log(`[Yopi On Air] Panel posted to channel.`);
+  } else {
+    console.log(`[Yopi On Air] ERROR: Could not find channel ${KEY_CHANNEL_ID}`);
+  }
 });
 
 client.login(BOT_TOKEN);
